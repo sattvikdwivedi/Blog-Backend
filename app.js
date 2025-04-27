@@ -14,10 +14,20 @@ app.use('/uploads', express.static('uploads'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use(cors({
-    origin: '*', // Allow frontend URL
-    // https://blog-app-sattvik.vercel.app/signup
-    credentials: true,  // Allow cookies and other credentials
+const allowedOrigins = [
+    'http://localhost:4200',  // Development environment
+    'https://blog-app-sattvik.vercel.app'  // Production environment
+  ];
+  pp.use(cors({
+    origin: function(origin, callback) {
+      if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+        // Allow the origin if it's in the allowed list or no origin is sent (for server-to-server requests)
+        callback(null, true);
+      } else {
+        callback(new Error('Not allowed by CORS'));
+      }
+    },
+    credentials: true,
     allowedHeaders: ['Content-Type', 'Authorization']
   }));
   
