@@ -14,11 +14,13 @@ app.use('/uploads', express.static('uploads'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-  app.use(cors({
-    origin: 'http://localhost:4200',
-    credentials: true,
+app.use(cors({
+    origin: '*', // Allow frontend URL
+    // https://blog-app-sattvik.vercel.app/signup
+    credentials: true,  // Allow cookies and other credentials
     allowedHeaders: ['Content-Type', 'Authorization']
   }));
+  
 // routes
 app.get('/', (req, res) => {
     res.send('Hello heroku');
