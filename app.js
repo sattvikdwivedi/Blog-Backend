@@ -14,14 +14,21 @@ app.use('/uploads', express.static('uploads'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-
-app.use(cors({
-    origin: '*', // Allow frontend URL
-    // https://blog-app-sattvik.vercel.app/signup
-    credentials: true,  // Allow cookies and other credentials
-    allowedHeaders: ['Content-Type', 'Authorization']
-  }));
+const allowedOrigins = [
+    'https://blog-app-sattvik.vercel.app',
+    'http://localhost:4200'
+  ];
   
+  app.use(cors({
+    origin: function(origin, callback) {
+      if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+        callback(null, true);
+      } else {
+        callback(new Error('Not allowed by CORS'));
+      }
+    },
+    credentials: true
+  }));
 // routes
 app.get('/', (req, res) => {
     res.send('Hello heroku');
