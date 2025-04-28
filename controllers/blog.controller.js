@@ -124,8 +124,8 @@ const reactToBlog = async(req, res, next) => {
 
 const updateBlog = async (req, res, next) => {
     try {
-      const { title, category, body } = req.body;
-
+      const { title, category, body,status } = req.body;
+     
       const blogId = req.params.id;
   
       const blog = await Blog.findById(blogId);
@@ -136,6 +136,7 @@ const updateBlog = async (req, res, next) => {
       blog.title = title || blog.title;
       blog.category = category || blog.category;
       blog.body = body || blog.body;
+      blog.status= status || blog.status;
       const updatedBlog = await blog.save();
       res.send(updatedBlog);
     } catch (error) {
